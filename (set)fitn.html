@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitLife Studio</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;}
+  body{
+    min-height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:#f1f5f9;
+    position:relative;
+    padding:2rem;
+    background: linear-gradient(135deg, rgba(15,23,42,0.6), rgba(30,41,59,0.6)),
+                url('n.png') no-repeat center center/cover;
+  }
+
+  h1{
+    font-size:3rem;
+    margin-bottom:1rem;
+    background:linear-gradient(90deg,#10b981,#22d3ee);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:
+      0 0 5px #10b981,
+      0 0 10px #22d3ee,
+      0 0 20px #22d3ee;
+    animation: floatText 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes floatText{
+    0%{transform:translateY(0);}
+    100%{transform:translateY(-10px);}
+  }
+
+  form{
+    backdrop-filter: blur(6px);
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+    padding:20px;
+    border-radius:16px;
+    max-width:400px;
+    width:100%;
+    margin-bottom:2rem;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    opacity:0;
+    transform: translateY(20px);
+    animation:fadeInUp 1s forwards;
+  }
+
+  @keyframes fadeInUp{
+    to {opacity:1; transform: translateY(0);}
+  }
+
+  label{text-align:left;font-size:0.9rem;color:#cbd5e1;}
+  input{
+    width:100%;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.05);
+    color:#f1f5f9;
+  }
+  input::placeholder{color:#94a3b8;}
+
+  .btn{
+    margin-top:10px;
+    padding:12px;
+    border:none;
+    border-radius:9999px;
+    background:linear-gradient(90deg,#10b981,#22d3ee);
+    color:#0f172a;
+    font-weight:600;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(34,211,238,0.3), 0 0 15px rgba(16,185,129,0.5);
+  }
+
+  a.schedule-link{
+    display:inline-block;
+    padding:12px 24px;
+    font-size:1.1rem;
+    background:linear-gradient(90deg,#10b981,#22d3ee);
+    color:#0f172a;
+    font-weight:600;
+    text-decoration:none;
+    border-radius:9999px;
+    box-shadow:0 8px 20px rgba(34,211,238,0.3);
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom:1rem;
+  }
+  a.schedule-link:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 24px rgba(34,211,238,0.4);
+  }
+
+  footer{
+    position:absolute;
+    bottom:1rem;
+    font-size:0.9rem;
+    color:#94a3b8;
+  }
+
+  /* Floating background items */
+  .floating-item{
+    position:absolute;
+    opacity:0.08;
+    width:150px;
+    height:150px;
+    background-size:contain;
+    background-repeat:no-repeat;
+    animation:float 20s linear infinite alternate, drift 60s linear infinite alternate;
+    pointer-events:none;
+  }
+
+  @keyframes float{
+    0%{transform:translateY(-40px) rotate(0deg);}
+    100%{transform:translateY(40px) rotate(360deg);}
+  }
+  @keyframes drift{
+    0%{left:-15%; top:20%;}
+    100%{left:80%; top:60%;}
+  }
+
+  /* Inline message */
+  #saveMessage{
+    color:#10b981;
+    margin-top:8px;
+    display:none;
+    font-weight:600;
+  }
+
+  /* Motivational tip */
+  #tip{
+    font-style:italic;
+    margin-bottom:1rem;
+    color:#22d3ee;
+    animation: floatText 4s ease-in-out infinite alternate;
+  }
+
+  /* Sparkle dots */
+  .sparkle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.3);
+    width:3px;
+    height:3px;
+    pointer-events:none;
+    animation: sparkMove 6s linear infinite alternate;
+  }
+  @keyframes sparkMove{
+    0%{transform:translate(0,0);}
+    100%{transform:translate(20px,20px);}
+  }
+
+  @media(max-width:480px){
+    h1{font-size:2rem;}
+    form{padding:16px;}
+    .floating-item{width:100px;height:100px;}
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- Floating items -->
+  <div class="floating-item" style="background:url('dumbbell.png') center/contain;"></div>
+  <div class="floating-item" style="background:url('protein.png') center/contain; animation-delay:5s;"></div>
+  <div class="floating-item" style="background:url('yoga-mat.png') center/contain; animation-delay:10s;"></div>
+
+  <h1 id="welcomeTitle">Welcome to FitLife Studio</h1>
+  <p id="tip"></p>
+
+  <form id="infoForm">
+    <div>
+      <label for="name">Full Name</label>
+      <input id="name" type="text" placeholder="Enter your name" required>
+    </div>
+    <div>
+      <label for="birth">Birthdate</label>
+      <input id="birth" type="date" required>
+    </div>
+    <div>
+      <label for="weight">Weight (kg)</label>
+      <input id="weight" type="number" min="0" step="0.1" placeholder="e.g. 70" required>
+    </div>
+    <div>
+      <label for="height">Height (cm)</label>
+      <input id="height" type="number" min="0" step="0.1" placeholder="e.g. 170" required>
+    </div>
+    <div>
+      <label for="goal">Fitness Goal</label>
+      <input id="goal" type="text" placeholder="e.g. Build strength, lose weight" required>
+    </div>
+    <button class="btn" type="submit">Save My Details</button>
+    <p id="saveMessage">Details saved successfully! 🎉</p>
+    <p id="bmiMessage"></p>
+  </form>
+
+  <a href="fitness-schedule.html" class="schedule-link">View Schedule & Sign Up</a>
+
+  <footer>© 2025 FitLife Studio</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+  // Motivational tips
+  const tips = [
+    "Consistency beats intensity.",
+    "Drink water before every workout.",
+    "Small steps lead to big results.",
+    "Push yourself, no one else will do it for you.",
+    "Rest is just as important as exercise."
+  ];
+  function showTip(){
+    const tip = tips[Math.floor(Math.random()*tips.length)];
+    document.getElementById('tip').textContent = tip;
+  }
+  showTip();
+
+  // Welcome back if user data exists
+  const storedUser = JSON.parse(localStorage.getItem('fitlife_user'));
+  if(storedUser){
+    document.getElementById('welcomeTitle').textContent = `Welcome back, ${storedUser.name}!`;
+    document.getElementById('name').value = storedUser.name;
+    document.getElementById('birth').value = storedUser.birth;
+    document.getElementById('weight').value = storedUser.weight;
+    document.getElementById('height').value = storedUser.height;
+    document.getElementById('goal').value = storedUser.goal;
+  }
+
+  // Parallax mouse movement
+  document.addEventListener('mousemove', e=>{
+    const x = e.clientX/100, y = e.clientY/100;
+    document.querySelectorAll('.floating-item').forEach(el=>{
+      el.style.transform = `translate(${x}px, ${y}px) rotate(${x*10}deg)`;
+    });
+  });
+
+  // Sparkle background
+  for(let i=0;i<50;i++){
+    const dot=document.createElement('div');
+    dot.classList.add('sparkle');
+    dot.style.top=Math.random()*100+'%';
+    dot.style.left=Math.random()*100+'%';
+    dot.style.width=dot.style.height=Math.random()*4+2+'px';
+    dot.style.animationDuration=3+Math.random()*5+'s';
+    document.body.appendChild(dot);
+  }
+
+  // Form submission
+  document.getElementById('infoForm').addEventListener('submit', e=>{
+    e.preventDefault();
+    const data = {
+      name: document.getElementById('name').value,
+      birth: document.getElementById('birth').value,
+      weight: parseFloat(document.getElementById('weight').value),
+      height: parseFloat(document.getElementById('height').value),
+      goal: document.getElementById('goal').value
+    };
+    localStorage.setItem('fitlife_user', JSON.stringify(data));
+
+    // BMI calculation
+    const bmi = (data.weight / ((data.height/100)**2)).toFixed(1);
+    let status = "";
+    if(bmi<18.5) status="Underweight";
+    else if(bmi<25) status="Healthy";
+    else if(bmi<30) status="Overweight";
+    else status="Obese";
+    document.getElementById('bmiMessage').textContent = `Your BMI: ${bmi} — ${status}`;
+
+    // Show save message
+    const msg = document.getElementById('saveMessage');
+    msg.style.display='block';
+    setTimeout(()=> msg.style.display='none', 3000);
+
+    // Confetti celebration
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  });
+</script>
+
+</body>
+</html>
